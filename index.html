@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="busDepartureBoard" ng-controller="main">
+<head>
+  <meta charset="UTF-8">
+  <title>Bus Departure Board</title>
+
+  <!-- AngularJS | https://angularjs.org/ -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js" defer></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js" defer></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js" defer></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js" defer></script>
+
+  <!-- Angular Material | https://material.angularjs.org/ -->
+  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js" defer></script>
+
+  <!-- Material Icons | http://google.github.io/material-design-icons/#icon-font-for-the-web -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+  <!-- Google Maps | https://developers.google.com/maps/documentation/javascript/tutorial -->
+  <!-- Get your own API key for Google Maps | https://developers.google.com/maps/documentation/javascript/get-api-key -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCyHUuPnj5y7LAejBWXFgau_jwPGWFKTZo"></script>
+
+  <!-- fetch-jsonp | https://cdnjs.com/libraries/fetch-jsonp -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch-jsonp/1.1.1/fetch-jsonp.min.js" defer></script>
+
+  <link rel="stylesheet" href="/assets/styles.css">
+  <script src="/assets/scripts.js" defer></script>
+</head>
+<body ng-cloak>
+  <!-- toolbar | https://material.angularjs.org/latest/demo/toolbar -->
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <md-button class="md-icon-button" ng-click="toggle('sideNavigation')">
+        <md-icon class="material-icons">menu</md-icon>
+      </md-button>
+
+      <h2 flex md-truncate>Bus Departure Board</h2>
+    </div>
+  </md-toolbar>
+
+  <!-- sidenav | https://material.angularjs.org/latest/demo/sidenav -->
+  <md-sidenav class="md-sidenav-left" md-component-id="sideNavigation" md-whiteframe="4">
+    <md-toolbar>
+      <h1 class="md-toolbar-tools">Bus Stops Nearby</h1>
+    </md-toolbar>
+
+    <!-- TODO: list of bus stops -->
+    <md-list flex>
+      <md-list-item class="md-2-line" ng-repeat="busStop in busStops" ng-click="busStop.trigger()">
+        <div class="md-list-item-text">
+          <h3>{{busStop.stop_name}}</h3>
+          <p>{{busStop.atcocode}}</p>
+        </div>
+      </md-list-item>
+    </md-list>
+  </md-sidenav>
+
+  <md-content layout="row" layout-align="center center" layout-fill id="map">
+    <div>Loading...</div>
+  </md-content>
+</body>
+</html>

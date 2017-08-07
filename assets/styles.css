@@ -1,0 +1,5 @@
+md-toolbar {
+  position: fixed;
+  top: 0;
+}
+md-content { padding-top: 64px; }
