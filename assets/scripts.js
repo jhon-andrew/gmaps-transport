@@ -25,8 +25,8 @@
     }
 
     // Get nearby stops | https://developer.transportapi.com/docs?raml=https://transportapi.com/v3/raml/transportapi.raml##uk_bus_stops_near_json
-    let getNearbyStops = (lat = defaultLocation.lat, lng = defaultLocation.lng) => {
-      let endpoint = `${transportApi.api}/uk/bus/stops/near.json?lat=${lat}&lon=${lng}&app_id=${transportApi.appId}&app_key=${transportApi.appKey}`
+    let getNearbyStops = (page = 1, lat = defaultLocation.lat, lng = defaultLocation.lng) => {
+      let endpoint = `${transportApi.api}/uk/bus/stops/near.json?lat=${lat}&lon=${lng}&page=${page}&app_id=${transportApi.appId}&app_key=${transportApi.appKey}`
       return fetchJsonp(endpoint).then(resp => { return resp.json() })
     }
 
@@ -39,7 +39,8 @@
     // Bus Stops for the Sidenav
     $scope.busStops = []
 
-    getNearbyStops().then(data => {
+    // getNearbyStops by page (max to 25 results per page)
+    let loadPage = (page = 1) => getNearbyStops(page).then(data => {
       let { stops } = data
 
       // Bus Stops
@@ -97,11 +98,16 @@
         // Create a trigger function to open marker from sidenav
         stop.trigger = () => {
           $scope.toggle('sideNavigation')
-          return new google.maps.event.trigger(marker, 'click')
+          let Trigger = google.maps.event.trigger
+          return new Trigger(marker, 'click')
         }
 
         $scope.busStops.push(stop)
       })
     }) // --> getNearbyStops
+
+    // How many pages to load multiplied by 25 is the number of markers to be created.
+    let pagesToLoad = 40
+    for (let i = 1; i <= pagesToLoad; i++) loadPage(i)
   }) // --> app.controller
 }())
